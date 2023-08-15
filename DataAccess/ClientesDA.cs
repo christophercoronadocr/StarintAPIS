@@ -68,6 +68,15 @@ namespace DataAccess
         {
             Respuestas<Clientes> respuesta = new Respuestas<Clientes>();
 
+            var listaClientes = _dbContext.Clientes.Where(u => u.Email.Equals(cliente.Email)).ToList();
+
+            if (listaClientes.Count > 0)
+            {
+                respuesta.CodigoRespuesta = 400;
+                respuesta.MensajeError = $"El usuario {cliente.Email} ya está registrado";
+                return respuesta;
+            }
+
             Clientes clientes = new()
             {
                 Id = 0,
